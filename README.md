@@ -33,7 +33,7 @@ The focus is **transparency, reproducibility, and technical correctness**.
 |---------|--------|
 | Controller | Spider Farmer GGS Controller |
 | BLE Device Name | `SF-GGS-CB` |
-| BLE MAC (example) | `90:E5:B1:B7:86:E6` |
+| BLE MAC (example) | `78:5e:1a:6b:56:2a` |
 | Platforms | Windows 10/11, Android (HCI logs), iOS |
 | Language | Python 3.11+ |
 | BLE Library | `bleak` |
