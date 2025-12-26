@@ -90,7 +90,7 @@ The controller continuously sends status updates via **FF01 notifications**.
       "level": 26
     }
   }
-}
+}```
 
 ### 🌱 SpiderFarmer GGS to MQTT Bridge (ESP32)This project bridges a SpiderFarmer GGS Controller (Grow System) to any Smart Home System (like Home Assistant) via MQTT.
 Since the GGS Controller communicates exclusively via Bluetooth Low Energy (BLE) using a proprietary app, this project uses an ESP32 to sniff, connect, and parse the sensor data, forwarding it over WiFi to your MQTT broker.
