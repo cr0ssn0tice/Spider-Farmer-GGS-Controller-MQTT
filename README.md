@@ -16,7 +16,6 @@ The focus is **transparency, reproducibility, and technical correctness**.
 ---
 
 ## ✨ Key Results (Verified)
-
 - ✔ Full local control of the GGS Controller via BLE  
 - ✔ No cloud or internet connection required  
 - ✔ BLE payloads are **unencrypted JSON**  
@@ -28,7 +27,6 @@ The focus is **transparency, reproducibility, and technical correctness**.
 ---
 
 ## 🎯 Project Goals
-
 - Eliminate dependency on Spider Farmer cloud services  
 - Understand and document the BLE protocol **fact-based**  
 - Enable MQTT-based automation  
@@ -41,7 +39,6 @@ The focus is **transparency, reproducibility, and technical correctness**.
 ---
 
 ## 🧱 Hardware & Environment
-
 | Component | Details |
 |---------|--------|
 | Controller | Spider Farmer GGS Controller |
@@ -54,13 +51,11 @@ The focus is **transparency, reproducibility, and technical correctness**.
 ---
 
 ## 🔬 Methodology Overview
-
 This project is based on **practical testing and observation**, not assumptions.
 
 ---
 
 ## 1️⃣ Cloud Independence — Proven
-
 ### Test Setup
 - Internet access blocked via firewall  
 - MQTT cloud traffic (`TCP/8883`) fully denied  
@@ -77,7 +72,6 @@ BLE is the **primary control and telemetry channel**.
 ---
 
 ## 2️⃣ BLE Service & Characteristic Discovery
-
 The following **stable vendor-specific UUIDs** were identified and verified:
 
 | UUID | Purpose | Direction |
@@ -89,11 +83,9 @@ The following **stable vendor-specific UUIDs** were identified and verified:
 ---
 
 ## 3️⃣ Status Notifications (`FF01`)
-
 The controller **continuously pushes telemetry** via BLE notifications.
 
 ### Example Payload
-
 ```json
 {
   "method": "getDevSta",
@@ -116,7 +108,6 @@ The controller **continuously pushes telemetry** via BLE notifications.
 ```
 
 ## 🔍 Key Observations
-
 - Payloads are plain JSON  
 - No encryption or signing  
 - Messages may arrive **fragmented**  
@@ -125,24 +116,20 @@ The controller **continuously pushes telemetry** via BLE notifications.
 ---
 
 ## 🐍 Phase 1 — Python BLE Sniffer
-
 Before writing firmware, the BLE protocol was **validated using Python**.
 
 ### Purpose
-
 - Observe raw BLE traffic  
 - Validate fragmentation behavior  
 - Confirm JSON structure  
 - Ensure ESP32 feasibility  
 
 ### Tooling
-
 - Python 3.11+  
 - `bleak` BLE library  
 - Notification-based packet reconstruction  
 
 ### Key Insights
-
 - JSON streams may span multiple BLE packets  
 - Parser must:
   - Strip non-JSON bytes  
@@ -154,13 +141,11 @@ These findings directly informed the ESP32 parsing logic.
 ---
 
 ## 🌱 Phase 2 — ESP32 BLE → MQTT Bridge
-
 This firmware bridges the **Spider Farmer GGS Controller** into any MQTT-based smart-home ecosystem.
 
 ---
 
 ## ✨ Features
-
 - Automatic BLE discovery & connection  
 - Robust JSON stream reconstruction  
 - Garbage-byte filtering  
@@ -169,7 +154,6 @@ This firmware bridges the **Spider Farmer GGS Controller** into any MQTT-based s
 - Reconnect & recovery logic  
 
 ### Published Metrics
-
 - Temperature  
 - Humidity  
 - VPD (Vapor Pressure Deficit)  
@@ -180,7 +164,6 @@ This firmware bridges the **Spider Farmer GGS Controller** into any MQTT-based s
 ---
 
 ## 🛠 Hardware Requirements
-
 - ESP32 Development Board  
   - ESP32-WROOM-32  
   - NodeMCU ESP32  
@@ -191,13 +174,10 @@ This firmware bridges the **Spider Farmer GGS Controller** into any MQTT-based s
 ---
 
 ## 📦 Software & Libraries
-
 ### Arduino IDE
-
 - Install **ESP32 by Espressif Systems** via Board Manager  
 
 ### Required Libraries
-
 Install via Arduino Library Manager:
 
 - `PubSubClient` by Nick O’Leary (MQTT)
@@ -207,7 +187,6 @@ Install via Arduino Library Manager:
 ---
 
 ## ⚙️ Configuration (`.ino`)
-
 Update the configuration section at the top of the sketch:
 
 ```cpp
@@ -220,6 +199,7 @@ const char* mqtt_server = "192.168.1.100";
 const int mqtt_port = 1883;
 const char* mqtt_user = "mqtt-user";
 const char* mqtt_pass = "your-password";
+```
 
 // --- BLE ---
 String ble_address = "78:5e:1a:6b:56:2a";
@@ -229,7 +209,6 @@ Use the **nRF Connect** app to identify your controller’s MAC address.
 ---
 
 ## 📡 MQTT Topics
-
 | Topic | Description | Example |
 |------|------------|---------|
 | `grow/GGS/status` | Bridge connectivity | `online` |
@@ -244,32 +223,25 @@ Use the **nRF Connect** app to identify your controller’s MAC address.
 ---
 
 ## 🐛 Troubleshooting
-
 ### Error `rc=5` (MQTT)
-
 - Authentication failure  
 - Verify `mqtt_user` / `mqtt_pass`  
 
 ### BLE connected but no data
-
 - MAC address must be **lowercase**  
 - ESP32 sets MTU to `517`  
 - CCCD (`0x2902`) is written automatically  
 - Power-cycle the GGS controller if needed  
 
 ### Missing fan/light data
-
 Parser waits for:
-
 - `"fan"` keyword  
 - Closing braces `}}`  
-
 Adjust trigger logic in `notifyCallback()` if firmware behavior changes.
 
 ---
 
 ## ⚖️ Disclaimer
-
 This is a **private research and hobby project**.
 
 - Not affiliated with Spider Farmer  
@@ -280,9 +252,6 @@ This is a **private research and hobby project**.
 ---
 
 ## 📌 Final Notes
-
 This project demonstrates that **modern IoT devices often rely on simple, local BLE protocols**, even when cloud services are marketed as mandatory.
-
 The ESP32 bridge provides a **clean, deterministic, and auditable integration path** into professional smart-home environments.
-
-Happy hacking 🌱
+Happy hacking 🌱 cr0'
